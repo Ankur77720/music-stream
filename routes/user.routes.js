@@ -4,12 +4,17 @@ const { registerUser, loginUser, getUserProfile } = require('../controllers/user
 const authMiddleware = require('../middleware/auth.js');
 
 // Register a new user
-router.post('/register', registerUser);
+
 router.get('/register', (req, res) => {
     res.render('register');
 });
 
+router.post('/register', registerUser);
+
 // User login
+router.get('/login', (req, res) => {
+    res.render('login');
+});
 router.post('/login', loginUser);
 
 // Get user profile (protected route)

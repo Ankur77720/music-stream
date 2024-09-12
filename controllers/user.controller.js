@@ -39,7 +39,7 @@ exports.registerUser = async (req, res) => {
         });
 
         // Redirect to profile (assuming the profile URL is '/profile')
-        res.redirect('/profile');
+        res.redirect('/user/profile');
     } catch (error) {
         console.log(error);
         res.status(500).json({ error: 'Server error' });
@@ -48,6 +48,9 @@ exports.registerUser = async (req, res) => {
 
 // Controller function for user login
 exports.loginUser = async (req, res) => {
+
+    console.log(req.body);
+
     const { email, password } = req.body;
 
     try {
@@ -70,11 +73,15 @@ exports.loginUser = async (req, res) => {
             { expiresIn: '1h' }
         );
 
-        res.redirect('/profile');
+
+        res.cookie('token', token, {
+            httpOnly: true,
+            maxAge: 3600000, // 1 hour
+        });
+
+        res.redirect('/user/profile');
     } catch (error) {
-
         console.log(error);
-
         res.status(500).json({ error: 'Server error' });
     }
 };
@@ -82,12 +89,15 @@ exports.loginUser = async (req, res) => {
 // Controller function for getting user profile
 exports.getUserProfile = async (req, res) => {
     try {
-        const user = await User.findById(req.user.userId).select('-password'); // Exclude password
+        const user = await User.findById(req.user._id).select('-password'); // Exclude password
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
         res.json(user);
     } catch (error) {
+
+        console.log(error);
+
         res.status(500).json({ error: 'Server error' });
     }
 };

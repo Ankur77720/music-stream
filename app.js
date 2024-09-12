@@ -3,6 +3,9 @@ const express = require('express');
 const app = express();
 const cookieParser = require('cookie-parser');
 const userRoutes = require('./routes/user.routes');
+const musicRouter = require('./routes/music.routes');
+const connectToDb = require('./config/mongodb');
+connectToDb();
 
 
 
@@ -14,6 +17,7 @@ app.use(cookieParser());
 
 
 app.use('/user', userRoutes);
+app.use('/music', musicRouter);
 
 
 app.listen(3000, () => {
