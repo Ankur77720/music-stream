@@ -18,7 +18,11 @@ const UserSchema = new Schema({
     },
     favorites: [ {
         type: Schema.Types.ObjectId,
-        ref: 'track'
+        ref: 'tracks'
+    } ],
+    playlists: [ {
+        type: Schema.Types.ObjectId,
+        ref: 'playlist'
     } ],
     profileImage: {
         type: String,

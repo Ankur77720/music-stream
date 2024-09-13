@@ -4,8 +4,11 @@ const app = express();
 const cookieParser = require('cookie-parser');
 const userRoutes = require('./routes/user.routes');
 const musicRouter = require('./routes/music.routes');
+const indexRouter = require('./routes/index.routes.js');
 const connectToDb = require('./config/mongodb');
 connectToDb();
+
+app.use(express.static('uploads'));
 
 
 
@@ -16,6 +19,7 @@ app.use(cookieParser());
 
 
 
+app.use('/', indexRouter);
 app.use('/user', userRoutes);
 app.use('/music', musicRouter);
 
